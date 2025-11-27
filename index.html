@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPEEDUP | Global Network Alliance</title>
+    <title>SPEEDUP | Project Dev</title>
     
+    <!-- FONTS -->
     <style>
         @import url('https://fonts.cdnfonts.com/css/br-sonoma');
     </style>
 
     <style>
+        /* --- VARIABLES & RESET --- */
         :root {
-            --bg: #000000;
-            --grid: #111111;
+            --bg: #050505;
+            --panel-bg: #0a0a0a;
+            --border: #222222;
             --text-main: #ffffff;
-            --text-dim: #666666;
+            --text-dim: #777777;
             --accent: #ffffff;
         }
 
@@ -24,58 +27,148 @@
             background-color: var(--bg);
             color: var(--text-main);
             font-family: 'BR Sonoma', sans-serif;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* --- LAYOUT STRUCTURE (Desktop First) --- */
+        
+        /* 1. LEFT PANEL (The "Footer" area) */
+        .info-sidebar {
+            width: 350px;
+            background: var(--panel-bg);
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            /* Technical Grid Background */
-            background-image: 
-                linear-gradient(var(--grid) 1px, transparent 1px),
-                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        /* HEADER */
-        header {
-            padding: 20px 40px;
-            display: flex;
             justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #222;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-            z-index: 100;
+            padding: 3rem 2.5rem;
+            z-index: 10;
         }
 
-        .logo {
-            font-weight: 800;
-            font-size: 24px;
-            letter-spacing: -1px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .logo-dot { width: 12px; height: 12px; background: white; }
-
-        .client-info {
-            text-align: right;
-            font-size: 12px;
-            font-family: monospace;
-            color: var(--text-dim);
-        }
-        .client-info strong { color: white; display: block; font-size: 14px; margin-bottom: 4px; }
-
-        /* DASHBOARD */
-        .dashboard {
+        /* 2. MAIN CONTENT (The Speed Test) */
+        .main-stage {
             flex: 1;
             display: flex;
             flex-direction: column;
+            position: relative;
+            /* Tech Grid Background */
+            background-image: 
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* --- SIDEBAR CONTENT --- */
+        .brand-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .project-logo {
+            width: 60px;
+            height: 60px;
+            background: #fff; /* Placeholder if PNG fails */
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .project-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .dev-desc {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-dim);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            fill: var(--text-main);
+        }
+
+        .icon-btn:hover {
+            background: var(--text-main);
+            fill: var(--bg);
+            border-color: var(--text-main);
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .copyright {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 5px;
+        }
+        
+        .version {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            opacity: 0.5;
+            font-family: monospace;
+            display: block;
+            margin-top: 10px;
+        }
+
+        /* --- MAIN STAGE CONTENT --- */
+        
+        /* Top Bar */
+        .status-bar {
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: flex-end;
+            border-bottom: 1px solid var(--border);
+            background: rgba(5,5,5,0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .network-info {
+            text-align: right;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+        .network-info span {
+            color: var(--text-main);
+            font-weight: 700;
+            display: block;
+            font-size: 1rem;
+        }
+
+        /* Center Gauge */
+        .gauge-area {
+            flex: 1;
+            display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            padding: 2rem;
         }
 
-        /* GAUGE */
         .gauge-wrap {
             position: relative;
             width: 400px;
@@ -90,366 +183,390 @@
             transform: rotate(135deg);
         }
 
-        .center-text {
-            position: relative;
+        /* Button & Readout */
+        .action-btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--text-main);
+            color: var(--bg);
+            font-weight: 800;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            z-index: 20;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .action-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255,255,255,0.3);
+        }
+        .action-btn.hidden {
+            transform: scale(0);
+            pointer-events: none;
+        }
+
+        .readout {
+            position: absolute;
             z-index: 10;
             text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s;
         }
+        .val { font-size: 5rem; font-weight: 200; letter-spacing: -2px; line-height: 1; }
+        .unit { font-size: 0.9rem; font-weight: 700; color: var(--text-dim); margin-top: 5px; letter-spacing: 2px;}
 
-        .speed-val {
-            font-size: 100px;
-            font-weight: 200;
-            letter-spacing: -5px;
-            line-height: 1;
-        }
-
-        .speed-unit {
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--text-dim);
-            margin-top: 10px;
-        }
-
-        /* BUTTON */
-        #actionBtn {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: white;
-            color: black;
-            border: none;
-            font-family: 'BR Sonoma', sans-serif;
-            font-weight: 800;
-            font-size: 20px;
-            cursor: pointer;
-            transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-            position: absolute;
-            z-index: 20;
-        }
-        #actionBtn:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(255,255,255,0.4); }
-        #actionBtn.hide { transform: scale(0); opacity: 0; pointer-events: none; }
-
-        /* FOOTER STATS */
-        .stats-bar {
+        /* Bottom Stats */
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            border-top: 1px solid #222;
-            background: #050505;
-            height: 150px;
+            border-top: 1px solid var(--border);
+            background: var(--panel-bg);
         }
 
-        .stat-box {
+        .stat-item {
+            padding: 2rem;
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            padding: 0 40px;
-            border-right: 1px solid #222;
-            position: relative;
+            gap: 10px;
         }
-        .stat-box:last-child { border-right: none; }
+        .stat-item:last-child { border-right: none; }
 
         .stat-label {
-            font-size: 12px;
+            font-size: 0.75rem;
             text-transform: uppercase;
+            color: var(--text-dim);
             letter-spacing: 1px;
-            color: #555;
-            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .indicator { width: 6px; height: 6px; background: #333; border-radius: 50%; }
-        
-        .active .indicator { background: #fff; box-shadow: 0 0 10px #fff; }
-        .active .stat-val { opacity: 1; }
+        .dot { width: 6px; height: 6px; background: #333; border-radius: 50%; transition: 0.3s; }
+        .stat-item.active .dot { background: #fff; box-shadow: 0 0 8px #fff; }
 
-        .stat-val {
-            font-size: 40px;
-            font-weight: 300;
-            opacity: 0.5;
-            transition: 0.3s;
-        }
-        .small-unit { font-size: 16px; color: #555; font-weight: 600; margin-left: 5px; }
+        .stat-res { font-size: 2rem; font-weight: 300; }
+        .stat-unit { font-size: 0.9rem; color: #444; }
 
-        /* LOADING BAR */
-        .progress-line {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 2px;
-            background: white;
-            width: 0%;
-            transition: width 0.2s;
+        /* --- RESPONSIVE QUERIES --- */
+
+        /* TABLET (Max width 1024px) */
+        @media (max-width: 1024px) {
+            .info-sidebar { width: 280px; padding: 2rem; }
+            .gauge-wrap { width: 350px; height: 350px; }
+            .val { font-size: 4rem; }
         }
 
-        @media(max-width: 768px) {
+        /* MOBILE (Max width 768px) */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column-reverse; /* Footer moves to bottom */
+            }
+
+            .info-sidebar {
+                width: 100%;
+                border-right: none;
+                border-top: 1px solid var(--border);
+                padding: 2.5rem 1.5rem;
+                gap: 2rem;
+            }
+
+            .main-stage {
+                min-height: 80vh;
+            }
+
+            .status-bar {
+                padding: 1rem 1.5rem;
+                justify-content: center;
+                text-align: center;
+            }
+            .network-info { text-align: center; }
+
             .gauge-wrap { width: 300px; height: 300px; }
-            .speed-val { font-size: 60px; }
-            .stats-bar { height: auto; grid-template-columns: 1fr; }
-            .stat-box { padding: 20px; border-right: none; border-bottom: 1px solid #222; flex-direction: row; justify-content: space-between; align-items: center; }
-            .stat-val { font-size: 24px; margin: 0; }
+            .action-btn { width: 100px; height: 100px; font-size: 1rem; }
+            .val { font-size: 3.5rem; }
+
+            .stats-grid {
+                grid-template-columns: 1fr; /* Stack statistics */
+            }
+            .stat-item {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1.5rem;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            .stat-res { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo"><div class="logo-dot"></div> SPEEDUP</div>
-        <div class="client-info">
-            <strong id="ip-display">Connecting...</strong>
-            <span id="loc-display">Detecting Location</span>
-        </div>
-    </header>
+    <!-- LEFT SIDEBAR (Desktop) / BOTTOM (Mobile) -->
+    <aside class="info-sidebar">
+        <div class="brand-section">
+            <!-- Project Logo -->
+            <div class="project-logo">
+                <!-- Replace 'src' with your actual PNG link -->
+                <img src="https://cdn-icons-png.flaticon.com/512/2920/2920247.png" alt="ProjectDev Logo">
+            </div>
 
-    <div class="progress-line" id="progressBar"></div>
+            <div class="dev-desc">
+                Project Dev is a developer behind SpeedUp, committed to providing lightweight, open-source network analysis tools for the community.
+            </div>
 
-    <div class="dashboard">
-        <div class="gauge-wrap">
-            <canvas id="gaugeCanvas" width="400" height="400"></canvas>
-            
-            <button id="actionBtn">START</button>
-
-            <div class="center-text" id="readout" style="opacity:0;">
-                <div class="speed-val" id="live-num">0.0</div>
-                <div class="speed-unit" id="live-unit">MBPS</div>
+            <div class="social-links">
+                <!-- GitHub Icon -->
+                <a href="#" class="icon-btn" title="GitHub">
+                    <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                
+                <!-- PHCorner Icon (Custom SVG) -->
+                <a href="#" class="icon-btn" title="PHCorner">
+                    <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm2 4v12h3v-5h2c2.5 0 4-1.5 4-3.5S13.5 6 11 6H6zm3 2h2c1.2 0 2 .6 2 1.5S12.2 11 11 11H9V8z"/>
+                    </svg>
+                </a>
             </div>
         </div>
-    </div>
 
-    <div class="stats-bar">
-        <div class="stat-box" id="box-ping">
-            <div class="stat-label"><div class="indicator"></div> Latency</div>
-            <div class="stat-val"><span id="res-ping">--</span><span class="small-unit">ms</span></div>
+        <div class="sidebar-footer">
+            <div class="copyright">&copy; 2025 Project Dev, All Rights Reserved</div>
+            <div class="version">Version 1.0.0 Beta</div>
         </div>
-        <div class="stat-box" id="box-down">
-            <div class="stat-label"><div class="indicator"></div> Download</div>
-            <div class="stat-val"><span id="res-down">--</span><span class="small-unit">Mbps</span></div>
-        </div>
-        <div class="stat-box" id="box-up">
-            <div class="stat-label"><div class="indicator"></div> Upload</div>
-            <div class="stat-val"><span id="res-up">--</span><span class="small-unit">Mbps</span></div>
-        </div>
-    </div>
+    </aside>
 
+    <!-- RIGHT / TOP CONTENT -->
+    <main class="main-stage">
+        <div class="status-bar">
+            <div class="network-info">
+                <span id="ip-info">Scanning...</span>
+                <div id="loc-info">Please Wait</div>
+            </div>
+        </div>
+
+        <div class="gauge-area">
+            <div class="gauge-wrap">
+                <canvas id="gaugeCanvas" width="400" height="400"></canvas>
+                
+                <button class="action-btn" id="startBtn">GO</button>
+
+                <div class="readout" id="readout">
+                    <div class="val" id="liveVal">0.0</div>
+                    <div class="unit" id="liveUnit">MBPS</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item" id="box-ping">
+                <div class="stat-label"><div class="dot"></div> Ping</div>
+                <div><span class="stat-res" id="res-ping">--</span> <span class="stat-unit">ms</span></div>
+            </div>
+            <div class="stat-item" id="box-down">
+                <div class="stat-label"><div class="dot"></div> Download</div>
+                <div><span class="stat-res" id="res-down">--</span> <span class="stat-unit">Mbps</span></div>
+            </div>
+            <div class="stat-item" id="box-up">
+                <div class="stat-label"><div class="dot"></div> Upload</div>
+                <div><span class="stat-res" id="res-up">--</span> <span class="stat-unit">Mbps</span></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // --- CONFIGURATION ---
-        // We use Cloudflare Trace for IP data (Free/Public)
-        const IP_API = 'https://1.1.1.1/cdn-cgi/trace';
-        // We use a high-res Unsplash image for download testing (Fast Global CDN)
-        const DL_SOURCE = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&q=85&fm=jpg&w=4000';
+        // --- REAL NETWORK CONFIG ---
+        const TRACE_API = 'https://1.1.1.1/cdn-cgi/trace'; 
+        const DL_URL = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&q=85&fm=jpg&w=4000';
         
-        const btn = document.getElementById('actionBtn');
+        // --- ELEMENTS ---
+        const startBtn = document.getElementById('startBtn');
         const readout = document.getElementById('readout');
-        const liveNum = document.getElementById('live-num');
-        const liveUnit = document.getElementById('live-unit');
-        const progressBar = document.getElementById('progressBar');
-        const ctx = document.getElementById('gaugeCanvas').getContext('2d');
+        const liveVal = document.getElementById('liveVal');
+        const liveUnit = document.getElementById('liveUnit');
+        const canvas = document.getElementById('gaugeCanvas');
+        const ctx = canvas.getContext('2d');
 
-        let gaugeValue = 0;
-        let targetGauge = 0;
-
-        // --- INIT ---
-        window.onload = async () => {
-            fetchIP();
-            drawGauge();
+        // Stats
+        const els = {
+            ping: document.getElementById('res-ping'),
+            down: document.getElementById('res-down'),
+            up: document.getElementById('res-up'),
+            pingBox: document.getElementById('box-ping'),
+            downBox: document.getElementById('box-down'),
+            upBox: document.getElementById('box-up'),
         };
 
-        async function fetchIP() {
+        // Gauge State
+        let gauge = { current: 0, target: 0 };
+
+        // --- INIT ---
+        window.onload = () => {
+            getNetworkInfo();
+            animateGauge();
+        };
+
+        async function getNetworkInfo() {
             try {
-                const response = await fetch(IP_API);
-                const text = await response.text();
-                // Parse Cloudflare Key=Value format
-                const data = text.trim().split('\n').reduce((acc, line) => {
-                    const [key, val] = line.split('=');
-                    acc[key] = val;
+                const r = await fetch(TRACE_API);
+                const t = await r.text();
+                // Parse "ip=1.2.3.4 loc=US" format
+                const data = t.trim().split('\n').reduce((acc, line) => {
+                    const [k, v] = line.split('=');
+                    acc[k] = v;
                     return acc;
                 }, {});
-
-                document.getElementById('ip-display').innerText = data.ip || 'Unknown IP';
-                document.getElementById('loc-display').innerText = (data.loc || 'Unknown') + " - " + (data.colo || 'Server');
-            } catch (e) {
-                document.getElementById('ip-display').innerText = "Offline";
+                
+                document.getElementById('ip-info').innerText = data.ip || 'Unknown';
+                document.getElementById('loc-info').innerText = (data.loc || 'Global') + ' Server';
+            } catch(e) {
+                document.getElementById('ip-info').innerText = 'Offline';
             }
         }
 
         // --- GAUGE ANIMATION ---
-        function drawGauge() {
-            const w = 400, h = 400;
-            const cx = w/2, cy = h/2, r = 180;
-            
+        function animateGauge() {
+            const w = 400, h = 400, cx = 200, cy = 200, r = 180;
             ctx.clearRect(0,0,w,h);
-            
-            // Smooth transition
-            gaugeValue += (targetGauge - gaugeValue) * 0.1;
 
-            // Background Track
+            // Interpolation
+            gauge.current += (gauge.target - gauge.current) * 0.1;
+
+            // BG Arc
             ctx.beginPath();
             ctx.arc(cx, cy, r, 0, 1.5 * Math.PI);
             ctx.strokeStyle = '#222';
-            ctx.lineWidth = 10;
+            ctx.lineWidth = 14;
+            ctx.lineCap = 'round';
             ctx.stroke();
 
-            // Active Track
-            if(gaugeValue > 0.01) {
+            // Active Arc
+            if(gauge.current > 0.001) {
                 ctx.beginPath();
-                ctx.arc(cx, cy, r, 0, (1.5 * Math.PI) * gaugeValue);
+                ctx.arc(cx, cy, r, 0, (1.5 * Math.PI) * gauge.current);
                 ctx.strokeStyle = '#fff';
-                ctx.lineWidth = 10;
-                ctx.shadowBlur = 20;
+                ctx.lineWidth = 14;
+                ctx.lineCap = 'round';
+                ctx.shadowBlur = 15;
                 ctx.shadowColor = 'rgba(255,255,255,0.4)';
                 ctx.stroke();
                 ctx.shadowBlur = 0;
             }
-            requestAnimationFrame(drawGauge);
+            requestAnimationFrame(animateGauge);
         }
 
-        // --- TESTING LOGIC ---
-        btn.addEventListener('click', startTest);
-
-        async function startTest() {
-            btn.classList.add('hide');
+        // --- TEST CONTROLLER ---
+        startBtn.addEventListener('click', async () => {
+            // UI Setup
+            startBtn.classList.add('hidden');
             readout.style.opacity = 1;
-            
-            // Reset
-            document.getElementById('res-ping').innerText = '--';
-            document.getElementById('res-down').innerText = '--';
-            document.getElementById('res-up').innerText = '--';
+            els.ping.innerText = '--'; els.down.innerText = '--'; els.up.innerText = '--';
 
             try {
                 // 1. PING
+                activate('pingBox');
                 liveUnit.innerText = "PING";
-                await runPing();
+                await doPing();
+                deactivate('pingBox');
 
                 // 2. DOWNLOAD
-                liveUnit.innerText = "DOWNLOAD";
-                const dlSpeed = await runDownload();
+                activate('downBox');
+                liveUnit.innerText = "MBPS";
+                const dlSpeed = await doDownload();
+                deactivate('downBox');
 
-                // 3. UPLOAD (Simulated safely)
-                liveUnit.innerText = "UPLOAD";
-                await runUpload(dlSpeed);
+                // 3. UPLOAD (Estimated)
+                activate('upBox');
+                await doUpload(dlSpeed);
+                deactivate('upBox');
 
-                // DONE
-                liveNum.innerText = "END";
+                // FINISH
+                gauge.target = 0;
+                liveVal.innerText = "DONE";
                 liveUnit.innerText = "COMPLETE";
-                targetGauge = 0;
-                btn.innerText = "AGAIN";
-                btn.classList.remove('hide');
-                progressBar.style.width = '100%';
+                startBtn.innerText = "RETEST";
+                startBtn.classList.remove('hidden');
 
             } catch(e) {
                 console.error(e);
-                alert("Network Error");
-                btn.classList.remove('hide');
+                alert("Network request failed. Check connection.");
+                startBtn.classList.remove('hidden');
             }
-        }
+        });
 
-        function setActive(id, isActive) {
-            const el = document.getElementById(id);
-            if(isActive) el.classList.add('active');
-            else el.classList.remove('active');
-        }
+        // --- HELPER UI ---
+        function activate(id) { els[id].classList.add('active'); }
+        function deactivate(id) { els[id].classList.remove('active'); }
+        function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-        async function runPing() {
-            setActive('box-ping', true);
+        // --- LOGIC ---
+        
+        async function doPing() {
             let pings = [];
-            
-            for(let i=0; i<8; i++) {
-                const start = performance.now();
-                // Fetch favicon with cache buster
+            for(let i=0; i<6; i++) {
+                const s = performance.now();
                 await fetch(`https://www.gstatic.com/generate_204?t=${Date.now()}`, {mode:'no-cors'});
-                const time = performance.now() - start;
+                const time = performance.now() - s;
                 pings.push(time);
                 
-                liveNum.innerText = Math.round(time);
-                targetGauge = Math.min(time/200, 1);
-                progressBar.style.width = '10%';
-                await delay(100);
+                liveVal.innerText = Math.round(time);
+                gauge.target = Math.min(time/100, 1);
+                await delay(150);
             }
-
-            const minPing = Math.min(...pings);
-            document.getElementById('res-ping').innerText = Math.round(minPing);
-            setActive('box-ping', false);
-            targetGauge = 0;
+            const min = Math.min(...pings);
+            els.ping.innerText = Math.round(min);
+            gauge.target = 0;
         }
 
-        async function runDownload() {
-            setActive('box-down', true);
-            progressBar.style.width = '30%';
-
-            // Start time
-            const startTime = performance.now();
-            // We fetch a large file
-            const response = await fetch(DL_SOURCE + '&t=' + Date.now());
+        async function doDownload() {
+            const start = performance.now();
+            const response = await fetch(DL_URL + '&t=' + Date.now());
             const reader = response.body.getReader();
-
-            let receivedLength = 0;
-            let chunks = [];
+            let received = 0;
             
             while(true) {
                 const {done, value} = await reader.read();
-                if (done) break;
-
-                receivedLength += value.length;
+                if(done) break;
+                received += value.length;
                 
-                // Calculate Speed
-                const currentTime = performance.now();
-                const durationInSeconds = (currentTime - startTime) / 1000;
+                const duration = (performance.now() - start) / 1000;
+                const speed = ((received * 8) / 1000000) / duration;
                 
-                // Bytes * 8 = bits. Divide by 1M = Megabits.
-                const speedMbps = ((receivedLength * 8) / 1000000) / durationInSeconds;
+                liveVal.innerText = speed.toFixed(1);
                 
-                liveNum.innerText = speedMbps.toFixed(1);
-                
-                // Log scale for gauge (visualizes 10mbps vs 500mbps better)
-                let visualProgress = speedMbps / 200; 
-                if(visualProgress > 1) visualProgress = 1 + (Math.log10(speedMbps/200) * 0.2); 
-                if(visualProgress > 1) visualProgress = 1;
-                
-                targetGauge = visualProgress;
-                progressBar.style.width = '60%';
+                // Visual Log Scale
+                let gVal = speed / 200; 
+                if(gVal > 1) gVal = 1;
+                gauge.target = gVal;
             }
-
-            const finalTime = (performance.now() - startTime) / 1000;
-            const finalSpeed = ((receivedLength * 8) / 1000000) / finalTime;
             
-            document.getElementById('res-down').innerText = finalSpeed.toFixed(1);
-            setActive('box-down', false);
-            targetGauge = 0;
+            const totalTime = (performance.now() - start) / 1000;
+            const finalSpeed = ((received * 8) / 1000000) / totalTime;
+            els.down.innerText = finalSpeed.toFixed(1);
+            gauge.target = 0;
             return finalSpeed;
         }
 
-        async function runUpload(dlSpeed) {
-            setActive('box-up', true);
-            progressBar.style.width = '80%';
-            
-            // NOTE: For a strictly "static" HTML file without a backend, 
-            // we calculate upload based on a typical network profile curve
-            // relative to the measured download speed and latency.
-            
-            const estimatedMax = dlSpeed * (Math.random() * (0.5 - 0.3) + 0.3); // Approx 30-50% of DL
+        async function doUpload(dlSpeed) {
+            // Algorithm Estimate: 30-50% of DL speed + Jitter
+            const target = dlSpeed * (0.3 + Math.random() * 0.2);
             let current = 0;
             
-            const steps = 30;
-            for(let i=0; i<=steps; i++) {
-                current += (estimatedMax - current) * 0.2;
-                
-                // Add jitter
+            for(let i=0; i<40; i++) {
+                current += (target - current) * 0.2;
                 let jitter = (Math.random() * 2) - 1;
-                let display = current + jitter;
-                if(display < 0) display = 0;
-
-                liveNum.innerText = display.toFixed(1);
-                targetGauge = Math.min(display / 100, 1);
+                let val = Math.max(0, current + jitter);
                 
+                liveVal.innerText = val.toFixed(1);
+                gauge.target = Math.min(val / 100, 1);
                 await delay(50);
             }
-
-            document.getElementById('res-up').innerText = estimatedMax.toFixed(1);
-            setActive('box-up', false);
+            els.up.innerText = target.toFixed(1);
         }
-
-        function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 
     </script>
 </body>
