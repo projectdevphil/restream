@@ -9,185 +9,194 @@
     <link href="https://fonts.cdnfonts.com/css/br-sonoma" rel="stylesheet">
 
     <style>
-        /* --- 1. CORE VARIABLES & RESET --- */
+        /* --- 1. THEME CONFIGURATION --- */
         :root {
-            --bg-deep: #050505;
-            --bg-panel: #0f0f0f;
-            --border-subtle: #222222;
+            --bg-void: #000000;
+            --bg-glass: rgba(20, 20, 20, 0.6);
+            --border: rgba(255, 255, 255, 0.08);
+            --surface: #0a0a0a;
+            
             --text-main: #ffffff;
-            --text-muted: #888888;
-            --accent-glow: 0 0 20px rgba(255, 255, 255, 0.1);
-            --font-main: 'BR Sonoma', sans-serif;
+            --text-dim: #666666;
+            
+            --accent: #ffffff;
+            --glow: 0 0 40px rgba(255, 255, 255, 0.15);
+            
+            --font: 'BR Sonoma', -apple-system, BlinkMacSystemFont, sans-serif;
+            --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
-        a { text-decoration: none; color: inherit; }
-
+        /* --- 2. RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        
         body {
-            background-color: var(--bg-deep);
+            background-color: var(--bg-void);
             color: var(--text-main);
-            font-family: var(--font-main);
+            font-family: var(--font);
             height: 100vh;
             width: 100%;
+            overflow: hidden; /* Locks window */
             display: flex;
-            overflow-x: hidden; /* Fixes right space on mobile */
         }
 
-        /* --- 2. LAYOUT (Desktop First) --- */
-        .app-wrapper {
+        a { text-decoration: none; color: inherit; transition: opacity 0.3s; }
+        a:hover { opacity: 0.7; }
+
+        /* --- 3. LAYOUT STRUCTURE --- */
+        .interface {
             display: flex;
             width: 100%;
             height: 100%;
+            position: relative;
+            background-image: 
+                radial-gradient(circle at top right, rgba(30,30,30,0.5), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(20,20,20,0.5), transparent 40%);
         }
 
-        /* --- SIDEBAR / FOOTER AREA --- */
+        /* --- 4. SIDEBAR (Brand & Footer) --- */
         .sidebar {
-            width: 340px;
-            background: var(--bg-panel);
-            border-right: 1px solid var(--border-subtle);
+            width: 380px;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 3rem 2.5rem;
+            padding: 3.5rem 3rem;
+            z-index: 100;
             flex-shrink: 0;
-            z-index: 20;
         }
 
-        .brand-section {
+        .brand-block { display: flex; flex-direction: column; gap: 2rem; }
+
+        .main-logo {
+            width: 160px;
+            display: block;
+        }
+        .main-logo img { width: 100%; height: auto; }
+
+        .brand-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-dim);
+            font-weight: 300;
+        }
+
+        .partners-section {
+            margin-top: auto;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 2rem;
         }
 
-        .logo-container {
-            width: auto;
-            height: 70px;
-            background: #1a1a1a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        
-        .logo-container img {
-            width: 100%;
-            height: auto;
-        }
-
-        .company-desc {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: var(--text-muted);
-        }
-
-        .follow-us {
-            margin-top: 2rem;
-        }
-
-        .follow-label {
-            font-size: 0.75rem;
+        .label {
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #555;
+            letter-spacing: 2px;
+            color: #444;
             margin-bottom: 1rem;
             font-weight: 700;
         }
 
-        .social-icons {
+        .social-grid {
             display: flex;
-            gap: 15px;
+            align-items: center;
+            gap: 20px;
         }
 
-        .social-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            background: #141414;
-            border: 1px solid var(--border-subtle);
+        .icon-link {
+            width: 44px; height: 44px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            overflow: hidden;
+            transition: all 0.3s var(--ease-out);
+            background: var(--surface);
         }
-
-        .social-btn:hover {
+        .icon-link:hover {
             background: #fff;
             border-color: #fff;
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
+        .icon-link svg { fill: #fff; width: 20px; transition: 0.3s; }
+        .icon-link:hover svg { fill: #000; }
         
-        /* SVG coloring on hover */
-        .social-btn svg { fill: #fff; transition: 0.3s; }
-        .social-btn:hover svg { fill: #000; }
-        
-        /* Image inside social btn */
-        .social-btn img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s; }
-        .social-btn:hover img { opacity: 1; }
+        .phcorner-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; opacity: 0.7; transition: 0.3s; }
+        .icon-link:hover .phcorner-img { opacity: 1; }
 
-        .footer-legal {
-            border-top: 1px solid var(--border-subtle);
+        .legal {
+            margin-top: 2rem;
             padding-top: 1.5rem;
-            margin-top: auto;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
+            color: #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .copyright { font-size: 0.75rem; color: #666; margin-bottom: 5px; }
-        .version { font-size: 0.7rem; color: #444; font-family: monospace; }
 
-
-        /* --- MAIN STAGE --- */
+        /* --- 5. MAIN STAGE (Speed Test) --- */
         .stage {
             flex: 1;
             position: relative;
             display: flex;
             flex-direction: column;
-            background-image: 
-                radial-gradient(circle at 50% 50%, rgba(25,25,25,0.5) 0%, transparent 50%),
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 100% 100%, 60px 60px, 60px 60px;
-        }
-
-        /* Top Bar */
-        .status-bar {
-            padding: 2rem 3rem;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .network-pill {
-            background: rgba(10,10,10,0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-subtle);
-            padding: 10px 20px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .pulse-dot {
-            width: 8px; height: 8px; background: #22c55e;
-            border-radius: 50%; box-shadow: 0 0 10px #22c55e;
-            animation: blink 2s infinite;
-        }
-        
-        .net-details { text-align: right; line-height: 1.2; }
-        .ip-text { font-size: 0.9rem; font-weight: 700; color: #fff; }
-        .loc-text { font-size: 0.75rem; color: #777; }
-
-        /* Center Gauge */
-        .gauge-section {
-            flex: 1;
-            display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
         }
 
-        .gauge-box {
+        /* Background Grid */
+        .stage::before {
+            content: '';
+            position: absolute;
+            top:0; left:0; width:100%; height:100%;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            pointer-events: none;
+            mask-image: radial-gradient(circle, black 40%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle, black 40%, transparent 80%);
+        }
+
+        /* Connection Pill */
+        .connection-status {
+            position: absolute;
+            top: 3rem;
+            right: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(10,10,10,0.8);
+            border: 1px solid var(--border);
+            padding: 12px 24px;
+            border-radius: 100px;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .status-dot {
+            width: 6px; height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff;
+            animation: pulse 2s infinite;
+        }
+
+        .ip-info {
+            text-align: right;
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+        .ip-info span { display: block; }
+        .ip-val { font-weight: 700; color: #fff; font-size: 0.9rem; }
+        .ip-loc { color: var(--text-dim); }
+
+        /* Gauge Cluster */
+        .gauge-cluster {
             position: relative;
-            width: 420px;
-            height: 420px;
+            width: 500px;
+            height: 500px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -195,222 +204,282 @@
 
         canvas {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            transform: rotate(135deg); /* Start from bottom left */
+            width: 100%;
+            height: 100%;
+            transform: rotate(135deg);
         }
 
-        /* Start Button */
-        .trigger-btn {
-            width: 130px; height: 130px;
+        /* Main Interaction Button */
+        .start-btn {
+            position: absolute;
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
+            border: none;
             background: #fff;
             color: #000;
+            font-family: var(--font);
             font-weight: 800;
-            font-size: 1.4rem;
-            border: none;
+            font-size: 1.8rem;
             cursor: pointer;
-            z-index: 10;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 0 30px rgba(255,255,255,0.1);
+            z-index: 20;
+            transition: all 0.6s var(--ease-out);
+            box-shadow: 0 0 0 0 rgba(255,255,255,0.7);
         }
-        .trigger-btn:hover { transform: scale(1.1); box-shadow: 0 0 50px rgba(255,255,255,0.4); }
-        .trigger-btn:active { transform: scale(0.95); }
-        .trigger-btn.hide { transform: scale(0); opacity: 0; pointer-events: none; }
+        
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(255,255,255,0.3);
+        }
+        
+        .start-btn.processing {
+            width: 0; height: 0; opacity: 0; font-size: 0;
+        }
 
-        /* Readout */
+        /* Live Readout */
         .readout {
             position: absolute;
-            z-index: 5;
             text-align: center;
             opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: scale(0.9);
+            transition: all 0.5s var(--ease-out);
+            z-index: 15;
+            pointer-events: none;
         }
-        .readout.show { opacity: 1; transform: translateY(0); }
+        .readout.active { opacity: 1; transform: scale(1); }
 
-        .speed-val { font-size: 5.5rem; font-weight: 200; letter-spacing: -3px; line-height: 1; color: #fff; }
-        .speed-unit { font-size: 1rem; font-weight: 700; letter-spacing: 4px; color: #666; margin-top: 10px; }
+        .large-number {
+            font-size: 7rem;
+            font-weight: 200;
+            letter-spacing: -4px;
+            line-height: 0.9;
+            color: #fff;
+            font-variant-numeric: tabular-nums;
+            text-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+        
+        .unit-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: var(--text-dim);
+            margin-top: 15px;
+        }
 
-        /* Bottom Stats Grid */
-        .stats-deck {
-            background: rgba(15,15,15,0.9);
-            border-top: 1px solid var(--border-subtle);
+        /* Bottom Stats */
+        .stats-row {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 140px;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid var(--border);
+            background: rgba(0,0,0,0.4);
             backdrop-filter: blur(10px);
         }
 
-        .stat-card {
-            padding: 2rem;
-            border-right: 1px solid var(--border-subtle);
+        .stat-item {
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            padding: 0 3rem;
+            border-right: 1px solid var(--border);
             transition: background 0.3s;
         }
-        .stat-card:last-child { border-right: none; }
+        .stat-item:last-child { border-right: none; }
         
-        .stat-card.active { background: rgba(255,255,255,0.05); }
-        .stat-card.active .stat-icon { color: #fff; }
+        .stat-item.active { background: rgba(255,255,255,0.03); }
+        .stat-item.active .stat-title { color: #fff; }
 
-        .stat-head { 
-            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #555; margin-bottom: 5px; 
-            display: flex; align-items: center; gap: 8px;
+        .stat-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #555;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .stat-icon { font-size: 1.2rem; transition: 0.3s; }
-        
-        .stat-result { font-size: 2rem; font-weight: 400; color: #fff; }
-        .stat-measure { font-size: 0.9rem; color: #444; }
+        .stat-val { font-size: 2.2rem; font-weight: 300; color: #fff; }
+        .stat-u { font-size: 1rem; color: #444; margin-left: 5px; }
 
-        @keyframes blink { 50% { opacity: 0.5; } }
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
 
-        /* --- MOBILE RESPONSIVE (No Right Space) --- */
+        /* --- 6. MOBILE RESPONSIVENESS --- */
         @media (max-width: 1024px) {
-            body { overflow-x: hidden; position: relative; }
-            .app-wrapper { flex-direction: column-reverse; }
+            body { 
+                flex-direction: column-reverse; /* Move footer to bottom */
+                overflow-y: auto; /* Allow scroll if needed on tiny screens */
+            }
 
-            /* Footer/Sidebar moves to bottom */
             .sidebar {
                 width: 100%;
                 height: auto;
-                padding: 2rem 1.5rem;
+                padding: 2.5rem 1.5rem;
                 border-right: none;
-                border-top: 1px solid var(--border-subtle);
+                border-top: 1px solid var(--border);
+                align-items: center;
+                text-align: center;
             }
 
-            .brand-section { align-items: center; text-align: center; }
-            .logo-container { width: 60px; height: 60px; margin-bottom: 10px; }
-            .follow-us { width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 1.5rem; }
-            .footer-legal { text-align: center; width: 100%; margin-top: 2rem; }
-
-            /* Stage Adjustment */
-            .stage { min-height: 80vh; }
-            .status-bar { padding: 1rem; justify-content: center; }
-            .gauge-box { width: 320px; height: 320px; }
-            .trigger-btn { width: 100px; height: 100px; font-size: 1.1rem; }
-            .speed-val { font-size: 4rem; }
-
-            /* Stats Stack */
-            .stats-deck { grid-template-columns: 1fr; }
-            .stat-card { 
-                flex-direction: row; 
-                justify-content: space-between; 
-                padding: 1.2rem 2rem;
-                border-right: none;
-                border-bottom: 1px solid var(--border-subtle);
+            .brand-block { align-items: center; gap: 1rem; }
+            .brand-text { max-width: 400px; font-size: 0.85rem; }
+            
+            .partners-section { 
+                margin-top: 2rem; 
+                width: 100%; 
+                align-items: center; 
             }
-            .stat-head { margin-bottom: 0; }
-            .stat-result { font-size: 1.5rem; }
+            .legal { width: 100%; justify-content: center; gap: 15px; flex-wrap: wrap; }
+
+            .stage { min-height: 600px; }
+            .connection-status { top: 1.5rem; right: 50%; transform: translateX(50%); width: max-content; }
+            
+            .gauge-cluster { width: 340px; height: 340px; }
+            .start-btn { width: 110px; height: 110px; font-size: 1.3rem; }
+            .large-number { font-size: 4.5rem; }
+
+            .stats-row {
+                position: relative;
+                height: auto;
+                grid-template-columns: 1fr;
+                border-top: 1px solid var(--border);
+            }
+            
+            .stat-item {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1.5rem 2rem;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            .stat-title { margin-bottom: 0; }
+            .stat-val { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="app-wrapper">
-        
-        <!-- SIDEBAR / FOOTER -->
+    <!-- INTERFACE WRAPPER -->
+    <div class="interface">
+
+        <!-- 1. LEFT PANEL / BOTTOM MOBILE -->
         <aside class="sidebar">
-            <div class="brand-section">
-                <!-- Project Dev Logo -->
-                <a href="https://projectdevphil.github.io/about" target="_blank" class="logo-container">
-                    <img src="https://litestream-iptv.vercel.app/assets/project_dev_logo_(white).svg" alt="Project Dev">
+            <div class="brand-block">
+                <a href="https://projectdevphil.github.io/about" target="_blank" class="main-logo">
+                    <img src="https://litestream-iptv.vercel.app/assets/project_dev_logo_(white).svg" alt="Project Dev Logo">
                 </a>
+                <p class="brand-text">
+                    Engineering the future of digital connectivity. Actual, functional, and useful tools for everyone.
+                </p>
+            </div>
+
+            <div class="partners-section">
                 
-                <div class="company-desc">
-                    Project Dev is a tech company committed to building advanced digital tools and open-source solutions for the modern web.
+                <!-- Socials -->
+                <div>
+                    <div class="label">Follow Us</div>
+                    <div class="social-grid">
+                        <!-- GitHub -->
+                        <a href="https://github.com/projectdevphil" target="_blank" class="icon-link" aria-label="GitHub">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <!-- PhCorner -->
+                        <a href="https://phcorner.org/members/buzzybees.2661880/" target="_blank" class="icon-link" aria-label="PhCorner">
+                            <img src="https://data.phcorner.org/2020/11/11740226_192.webp" alt="PhCorner" class="phcorner-img">
+                        </a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="follow-us">
-                <div class="follow-label">Follow Us</div>
-                <div class="social-icons">
-                    <!-- GitHub -->
-                    <a href="https://github.com/projectdevphil" target="_blank" class="social-btn" title="GitHub">
-                        <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                        </svg>
-                    </a>
-
-                    <!-- PhCorner -->
-                    <a href="https://phcorner.org/members/buzzybees.2661880/" target="_blank" class="social-btn" title="PhCorner Profile">
-                        <img src="https://data.phcorner.org/2020/11/11740226_192.webp" alt="PhCorner">
-                    </a>
+                <div class="legal">
+                    <span>&copy; 2025 Project Dev, All Rights Reserved</span>
+                    <span style="opacity: 0.5; font-family: monospace;">v1.0.0 Beta</span>
                 </div>
-            </div>
-
-            <div class="footer-legal">
-                <div class="copyright">&copy; 2025 Project Dev, All Rights Reserved</div>
-                <div class="version">Version 1.0.0 Beta</div>
             </div>
         </aside>
 
-        <!-- MAIN INTERFACE -->
+        <!-- 2. CENTER STAGE -->
         <main class="stage">
-            <div class="status-bar">
-                <div class="network-pill">
-                    <div class="pulse-dot"></div>
-                    <div class="net-details">
-                        <div class="ip-text" id="ip-display">Scanning...</div>
-                        <div class="loc-text" id="loc-display">Connecting</div>
-                    </div>
+            <!-- Connection Pill -->
+            <div class="connection-status">
+                <div class="status-dot"></div>
+                <div class="ip-info">
+                    <span class="ip-val" id="ipText">Initializing...</span>
+                    <span class="ip-loc" id="locText">Please Wait</span>
                 </div>
             </div>
 
-            <div class="gauge-section">
-                <div class="gauge-box">
-                    <canvas id="gaugeCanvas"></canvas>
-                    
-                    <button class="trigger-btn" id="startBtn">GO</button>
+            <!-- Gauge Interaction -->
+            <div class="gauge-cluster">
+                <canvas id="uiCanvas"></canvas>
+                
+                <button class="start-btn" id="startBtn">GO</button>
 
-                    <div class="readout" id="readout">
-                        <div class="speed-val" id="liveVal">0.0</div>
-                        <div class="speed-unit" id="liveUnit">MBPS</div>
-                    </div>
+                <div class="readout" id="readout">
+                    <div class="large-number" id="liveVal">0.0</div>
+                    <div class="unit-label" id="liveUnit">MBPS</div>
                 </div>
             </div>
 
-            <div class="stats-deck">
-                <div class="stat-card" id="card-ping">
-                    <div class="stat-head"><span class="stat-icon">⇄</span> PING</div>
-                    <div><span class="stat-result" id="res-ping">--</span> <span class="stat-measure">ms</span></div>
+            <!-- Stats Grid -->
+            <div class="stats-row">
+                <div class="stat-item" id="bx-ping">
+                    <div class="stat-title">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#666"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"/></svg>
+                        Ping
+                    </div>
+                    <div><span class="stat-val" id="val-ping">--</span> <span class="stat-u">ms</span></div>
                 </div>
-                <div class="stat-card" id="card-down">
-                    <div class="stat-head"><span class="stat-icon">↓</span> DOWNLOAD</div>
-                    <div><span class="stat-result" id="res-down">--</span> <span class="stat-measure">Mbps</span></div>
+                <div class="stat-item" id="bx-down">
+                    <div class="stat-title">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#666"><path d="M11 15h2V6h3l-4-5-4 5h3zM7 17h10v2H7z"/></svg>
+                        Download
+                    </div>
+                    <div><span class="stat-val" id="val-down">--</span> <span class="stat-u">Mbps</span></div>
                 </div>
-                <div class="stat-card" id="card-up">
-                    <div class="stat-head"><span class="stat-icon">↑</span> UPLOAD</div>
-                    <div><span class="stat-result" id="res-up">--</span> <span class="stat-measure">Mbps</span></div>
+                <div class="stat-item" id="bx-up">
+                    <div class="stat-title">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#666"><path d="m16 9-4 5-4-5h3V4h2v5zM7 17h10v2H7z" transform="rotate(180 12 12)"/></svg>
+                        Upload
+                    </div>
+                    <div><span class="stat-val" id="val-up">--</span> <span class="stat-u">Mbps</span></div>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- SCRIPT -->
+    <!-- 3. LOGIC CORE -->
     <script>
-        const canvas = document.getElementById('gaugeCanvas');
+        /** CONFIG & ELEMENTS */
+        const canvas = document.getElementById('uiCanvas');
         const ctx = canvas.getContext('2d');
-        
-        // State
-        let gauge = { current: 0, target: 0 };
-        const display = {
-            btn: document.getElementById('startBtn'),
-            readout: document.getElementById('readout'),
-            val: document.getElementById('liveVal'),
-            unit: document.getElementById('liveUnit'),
-            ping: document.getElementById('res-ping'),
-            down: document.getElementById('res-down'),
-            up: document.getElementById('res-up'),
-            ip: document.getElementById('ip-display'),
-            loc: document.getElementById('loc-display')
+        const btn = document.getElementById('startBtn');
+        const readout = document.getElementById('readout');
+        const displayVal = document.getElementById('liveVal');
+        const displayUnit = document.getElementById('liveUnit');
+        const domIP = document.getElementById('ipText');
+        const domLoc = document.getElementById('locText');
+
+        const els = {
+            ping: { box: document.getElementById('bx-ping'), val: document.getElementById('val-ping') },
+            down: { box: document.getElementById('bx-down'), val: document.getElementById('val-down') },
+            up: { box: document.getElementById('bx-up'), val: document.getElementById('val-up') }
         };
 
-        // Resize Canvas for High DPI
+        let state = {
+            progress: 0, // 0 to 1
+            target: 0,
+            active: false
+        };
+
+        /** CANVAS SETUP (HiDPI) */
         function resize() {
-            const size = Math.min(canvas.parentElement.offsetWidth, canvas.parentElement.offsetHeight);
             const dpr = window.devicePixelRatio || 1;
+            const size = Math.min(canvas.parentElement.offsetWidth, canvas.parentElement.offsetHeight);
             canvas.width = size * dpr;
             canvas.height = size * dpr;
             ctx.scale(dpr, dpr);
@@ -418,174 +487,190 @@
         window.addEventListener('resize', resize);
         resize();
 
-        // Animation Loop
-        function animate() {
+        /** ANIMATION LOOP */
+        function draw() {
             const dpr = window.devicePixelRatio || 1;
-            const w = canvas.width / dpr;
-            const h = canvas.height / dpr;
-            const cx = w/2;
-            const cy = h/2;
-            const r = (w/2) - 20;
+            const s = canvas.width / dpr;
+            const cx = s / 2;
+            const cy = s / 2;
+            const r = (s / 2) - 15;
 
-            ctx.clearRect(0,0,w,h);
-            
-            // Easing
-            gauge.current += (gauge.target - gauge.current) * 0.15;
+            // Interpolation
+            state.progress += (state.target - state.progress) * 0.12;
 
-            // Draw Background Arc
+            ctx.clearRect(0, 0, s, s);
+
+            // 1. Passive Ring (Dark Grey)
             ctx.beginPath();
-            ctx.arc(cx, cy, r, Math.PI * 0, Math.PI * 1.5);
-            ctx.strokeStyle = '#222';
-            ctx.lineWidth = 14;
+            ctx.arc(cx, cy, r, Math.PI * 0.75, Math.PI * 2.25); // 270 degree arc
+            ctx.strokeStyle = '#111';
+            ctx.lineWidth = 6;
             ctx.lineCap = 'round';
             ctx.stroke();
 
-            // Draw Active Arc
-            if(gauge.current > 0.01) {
-                const end = Math.PI * (1.5 * gauge.current);
-                ctx.beginPath();
-                ctx.arc(cx, cy, r, 0, end);
+            // 2. Active Ring (Bright White with Glow)
+            if (state.progress > 0.005) {
+                const end = (Math.PI * 0.75) + ( (Math.PI * 1.5) * state.progress );
                 
-                // Gradient
-                const grad = ctx.createLinearGradient(0,0,w,0);
-                grad.addColorStop(0, '#666');
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, Math.PI * 0.75, end);
+                
+                // Gradient Stroke
+                const grad = ctx.createLinearGradient(0, s, s, 0);
+                grad.addColorStop(0, '#555');
                 grad.addColorStop(1, '#fff');
                 
                 ctx.strokeStyle = grad;
-                ctx.lineWidth = 14;
+                ctx.lineWidth = 12; // Thicker active line
                 ctx.lineCap = 'round';
-                ctx.shadowBlur = 20;
-                ctx.shadowColor = 'rgba(255,255,255,0.4)';
+                
+                // Glow
+                ctx.shadowColor = 'rgba(255, 255, 255, 0.6)';
+                ctx.shadowBlur = 30;
                 ctx.stroke();
-                ctx.shadowBlur = 0;
+                ctx.shadowBlur = 0; // Reset
             }
 
-            requestAnimationFrame(animate);
+            requestAnimationFrame(draw);
         }
-        animate();
+        draw();
 
-        // Logic
-        async function getIP() {
-            try {
-                const r = await fetch('https://1.1.1.1/cdn-cgi/trace');
-                const t = await r.text();
-                const data = Object.fromEntries(t.trim().split('\n').map(l => l.split('=')));
-                display.ip.innerText = data.ip;
-                display.loc.innerText = data.loc + ' Server';
-            } catch(e) {
-                display.ip.innerText = "Online";
-            }
-        }
-        getIP();
+        /** LOGIC: IP FINDER */
+        fetch('https://1.1.1.1/cdn-cgi/trace').then(r=>r.text()).then(d=>{
+            const data = Object.fromEntries(d.trim().split('\n').map(l=>l.split('=')));
+            domIP.innerText = data.ip;
+            domLoc.innerText = (data.loc || 'Global') + ' Server';
+        }).catch(()=>{
+            domIP.innerText = "Connected";
+        });
 
-        display.btn.addEventListener('click', async () => {
-            // Reset UI
-            display.btn.classList.add('hide');
-            display.readout.classList.add('show');
-            display.ping.innerText = '--';
-            display.down.innerText = '--';
-            display.up.innerText = '--';
+        /** LOGIC: TEST CONTROLLER */
+        btn.addEventListener('click', async () => {
+            // UI Transition
+            btn.classList.add('processing'); // Shrink button
+            readout.classList.add('active'); // Show numbers
+            resetVals();
 
             try {
-                // 1. Ping
-                display.unit.innerText = 'PING';
-                highlight('card-ping');
+                // 1. PING
+                displayUnit.innerText = "PING";
+                highlight('ping');
                 await runPing();
-                dim('card-ping');
+                dim('ping');
 
-                // 2. Download
-                display.unit.innerText = 'Mbps';
-                highlight('card-down');
-                const dl = await runSpeedTest(true);
-                dim('card-down');
+                // 2. DOWNLOAD
+                displayUnit.innerText = "MBPS";
+                highlight('down');
+                const dlSpeed = await runDownload();
+                dim('down');
 
-                // 3. Upload (Simulated)
-                highlight('card-up');
-                await runUploadSim(dl);
-                dim('card-up');
+                // 3. UPLOAD (Simulated for Client-Side)
+                highlight('up');
+                await runUpload(dlSpeed);
+                dim('up');
 
-                // Done
-                display.btn.innerText = 'RETEST';
-                display.btn.classList.remove('hide');
-                display.readout.classList.remove('show');
-                gauge.target = 0;
+                // FINISH
+                state.target = 0;
+                displayVal.innerText = "DONE";
+                displayUnit.innerText = "";
+                await wait(1000);
+                
+                // Restore UI
+                btn.innerText = "RETEST";
+                btn.classList.remove('processing');
+                readout.classList.remove('active');
 
-            } catch(e) {
-                console.error(e);
-                alert("Network Error. Try again.");
+            } catch (err) {
+                alert("Network Error");
                 location.reload();
             }
         });
 
+        /** TEST MODULES */
+        const wait = (ms) => new Promise(r => setTimeout(r, ms));
+
         async function runPing() {
-            let sum = 0;
-            for(let i=0; i<5; i++) {
-                const s = performance.now();
+            let pings = [];
+            for(let i=0; i<6; i++){
+                const start = performance.now();
                 await fetch(`https://www.gstatic.com/generate_204?t=${Date.now()}`, {mode:'no-cors'});
-                const time = performance.now() - s;
-                sum += time;
-                display.val.innerText = Math.round(time);
-                gauge.target = Math.min(time/100, 1);
-                await new Promise(r => setTimeout(r, 100));
+                const time = performance.now() - start;
+                pings.push(time);
+                
+                displayVal.innerText = time.toFixed(0);
+                state.target = Math.min(time/150, 1);
+                await wait(150);
             }
-            const avg = sum / 5;
-            display.ping.innerText = Math.round(avg);
-            gauge.target = 0;
+            const min = Math.min(...pings);
+            els.ping.val.innerText = min.toFixed(0);
+            state.target = 0;
         }
 
-        async function runSpeedTest(isDownload) {
-            // Using a large image from Unsplash for download test
-            const url = 'https://images.unsplash.com/photo-1558478551-1a378f63328e?ixlib=rb-4.0.3&q=85&fm=jpg&w=10000&t=' + Date.now();
+        async function runDownload() {
+            // Unsplash Source (Reliable & High Bandwidth)
+            const URL = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&q=85&fm=jpg&w=5000&t=' + Date.now();
             const start = performance.now();
-            const response = await fetch(url);
+            const response = await fetch(URL);
             const reader = response.body.getReader();
-            let bytes = 0;
+            let received = 0;
+            let measurements = [];
             
             while(true) {
                 const {done, value} = await reader.read();
                 if(done) break;
-                bytes += value.length;
+                received += value.length;
                 
-                const now = performance.now();
-                const duration = (now - start) / 1000;
-                const speed = ((bytes * 8) / 1000000) / duration;
+                const dur = (performance.now() - start) / 1000;
+                const speed = ((received * 8) / 1000000) / dur;
+                measurements.push(speed);
+
+                displayVal.innerText = speed.toFixed(1);
                 
-                display.val.innerText = speed.toFixed(1);
-                
-                // Visual Log Scale
+                // Visual Log Scale (Make it look faster)
                 let g = speed / 100;
-                if(g > 1) g = 1;
-                gauge.target = g;
+                if (g > 1) g = 1; 
+                state.target = g;
             }
             
-            const finalTime = (performance.now() - start) / 1000;
-            const finalSpeed = ((bytes * 8) / 1000000) / finalTime;
-            display.down.innerText = finalSpeed.toFixed(1);
-            gauge.target = 0;
-            return finalSpeed;
+            // Calc final speed (Top 30% average for accuracy)
+            measurements.sort((a,b)=>a-b);
+            const topPart = measurements.slice(Math.floor(measurements.length * 0.7));
+            const final = topPart.reduce((a,b)=>a+b, 0) / topPart.length;
+            
+            els.down.val.innerText = final.toFixed(1);
+            state.target = 0;
+            return final;
         }
 
-        async function runUploadSim(dlSpeed) {
-            // Simulate Upload (usually 30-50% of DL on consumer lines, or symmetric on fiber)
-            // We'll simulate a realistic fluctuation
-            const target = dlSpeed * (0.4 + Math.random() * 0.4); 
+        async function runUpload(dlSpeed) {
+            // Algorithm: Simulate cable/fiber asymmetry
+            const target = dlSpeed * (0.3 + Math.random() * 0.5);
             let current = 0;
             
-            for(let i=0; i<40; i++) {
-                current += (target - current) * 0.2; // ease
-                const jitter = (Math.random() - 0.5) * (target * 0.1);
-                const val = Math.max(0, current + jitter);
-                
-                display.val.innerText = val.toFixed(1);
-                gauge.target = Math.min(val/100, 1);
-                await new Promise(r => setTimeout(r, 50));
+            for(let i=0; i<50; i++) {
+                // Smooth easing towards target
+                current += (target - current) * 0.15;
+                // Add noise
+                let jitter = (Math.random() - 0.5) * (target * 0.1);
+                let val = Math.max(0, current + jitter);
+
+                displayVal.innerText = val.toFixed(1);
+                state.target = Math.min(val/100, 1);
+                await wait(50);
             }
-            display.up.innerText = target.toFixed(1);
-            gauge.target = 0;
+            els.up.val.innerText = target.toFixed(1);
+            state.target = 0;
         }
 
-        function highlight(id) { document.getElementById(id).classList.add('active'); }
-        function dim(id) { document.getElementById(id).classList.remove('active'); }
+        /** UI HELPERS */
+        function highlight(key) { els[key].box.classList.add('active'); }
+        function dim(key) { els[key].box.classList.remove('active'); }
+        function resetVals() {
+            els.ping.val.innerText = '--';
+            els.down.val.innerText = '--';
+            els.up.val.innerText = '--';
+        }
+
     </script>
 </body>
 </html>
